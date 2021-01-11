@@ -1,0 +1,50 @@
+---
+title: 'Introduction: Mind Over Data'
+author: "Fernando Miguez"
+date: "1/11/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(ggdag)
+```
+
+# Plant Growth Example
+
+We know that plant growth is a result of photosynthesis, therefore it responds to solar radiation, but when we simply observe this in the real world, we might notice that it is confounded with the effect of temperature as more solar radiation is normally associated with higher temperatures.
+
+How can we separate the individual effects of these two variables? We could perform an experiment in which we manipulate both solar radiation and temperature individually in a growth chamber. We could also use lots and lots of data and then build a statistical model, which we can further query for these specific effects.
+
+```{r, echo = FALSE}
+crds <- list(x = c(P = 1, S = 0, T = 0), 
+             y = c(P = 0.5, S = 1, T = 0))
+
+gst  <- dagify(P ~ S,
+  P ~ T,
+  T ~ S, coords = crds)
+
+ggdag(gst, node_size = 20, text_size = 2.5) + 
+  geom_dag_node(color = "brown") + 
+  geom_dag_text(color = "white") + 
+  ggtitle("Plant Growth (P), Solar Radiation (S) and Temperature (T) \n
+          P(P | S, T)") + 
+  theme_dag_blank() 
+```
+
+The *do* operator represents an intervention, which as a result erases the arrow from solar radiation to temperature.
+
+```{r, echo = FALSE}
+crds <- list(x = c(P = 1, S = 0, T = 0), 
+             y = c(P = 0.5, S = 1, T = 0))
+
+gst  <- dagify(P ~ S,
+  P ~ T, coords = crds)
+
+ggdag(gst, node_size = 20, text_size = 2.5) + 
+  geom_dag_node(color = "brown") + 
+  geom_dag_text(color = "white") + 
+  ggtitle("Plant Growth (P), Solar Radiation (S) and Temperature (T) \n
+          P(P | S, do(T))") + 
+  theme_dag_blank() 
+```
