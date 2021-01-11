@@ -10,6 +10,32 @@ knitr::opts_chunk$set(echo = TRUE)
 library(ggdag)
 ```
 
+# Fertilizer Example
+
+```{r, echo = FALSE}
+crds <- list(x = c(P = 1, F = 0), 
+             y = c(P = 0, F = 0))
+
+pfr  <- dagify(P ~ F, coords = crds)
+
+ggdag(pfr, node_size = 20, text_size = 2.5) + 
+  geom_dag_node(color = "brown") + 
+  geom_dag_text(color = "white") + 
+  ggtitle("Plant Growth (P), Fertilizer (F) \n
+          P(P | do(F))") + 
+  theme_dag_blank() 
+```
+
+## Experiments
+
+Observational effects are not identical to experimental manipulations
+
+(Review text on page 8)
+
+\[
+P(P | F) \neq P(P | do(F))
+\]
+
 # Plant Growth Example
 
 We know that plant growth is a result of photosynthesis, therefore it responds to solar radiation, but when we simply observe this in the real world, we might notice that it is confounded with the effect of temperature as more solar radiation is normally associated with higher temperatures.
@@ -48,3 +74,16 @@ ggdag(gst, node_size = 20, text_size = 2.5) +
           P(P | S, do(T))") + 
   theme_dag_blank() 
 ```
+
+# Notable quotes
+
+> Data are profoundly dumb
+
+## Calculus of Causation
+
+1. Causal Diagrams (commonly DAGS)
+2. Symbolic language (math)
+
+Causal diagrams are fundamental to understanding the "data generating process" or the "cause and effect" forces behind the data.
+
+# Inference Engine
