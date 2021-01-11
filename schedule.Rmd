@@ -1,6 +1,5 @@
 ---
 title: "Book of Why Schedule"
-author: "Fernando Miguez"
 date: "1/11/2021"
 output: html_document
 ---
@@ -16,7 +15,8 @@ library(knitr)
 dates <- seq(from = as.Date("2021-01-12"),
              to = as.Date("2021-05-31"), by = 7)
 topics <- c("Introduction: Mind Over Data", 
-            paste("Chapter", 1:10),
+            "Chapter 1: The Ladder of Causation",
+            paste("Chapter", 2:10),
             rep("Practice", 9))
 presenter <- c("Miguez")
 sch <- data.frame(dates = dates, topic = topics, presenter = presenter)
