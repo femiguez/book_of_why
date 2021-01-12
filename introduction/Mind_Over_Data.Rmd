@@ -13,16 +13,16 @@ library(ggdag)
 # Fertilizer Example
 
 ```{r, echo = FALSE}
-crds <- list(x = c(P = 1, F = 0), 
-             y = c(P = 0, F = 0))
+crds <- list(x = c(Y = 1, F = 0), 
+             y = c(Y = 0, F = 0))
 
-pfr  <- dagify(P ~ F, coords = crds)
+pfr  <- dagify(Y ~ F, coords = crds)
 
 ggdag(pfr, node_size = 20, text_size = 2.5) + 
   geom_dag_node(color = "brown") + 
   geom_dag_text(color = "white") + 
-  ggtitle("Plant Growth (P), Fertilizer (F) \n
-          P(P | do(F))") + 
+  ggtitle("Crop Yield (Y), Fertilizer (F) \n
+          P(Y | do(F))") + 
   theme_dag_blank() 
 ```
 
@@ -33,7 +33,7 @@ Observational effects are not identical to experimental manipulations
 (Review text on page 8)
 
 \[
-P(P | F) \neq P(P | do(F))
+P(Y \; | \; F) \neq P(Y \; | \; do(F))
 \]
 
 # Plant Growth Example
@@ -43,41 +43,45 @@ We know that plant growth is a result of photosynthesis, therefore it responds t
 How can we separate the individual effects of these two variables? We could perform an experiment in which we manipulate both solar radiation and temperature individually in a growth chamber. We could also use lots and lots of data and then build a statistical model, which we can further query for these specific effects.
 
 ```{r, echo = FALSE}
-crds <- list(x = c(P = 1, S = 0, T = 0), 
-             y = c(P = 0.5, S = 1, T = 0))
+crds <- list(x = c(G = 1, S = 0, T = 0), 
+             y = c(G = 0.5, S = 1, T = 0))
 
-gst  <- dagify(P ~ S,
-  P ~ T,
+gst  <- dagify(G ~ S,
+  G ~ T,
   T ~ S, coords = crds)
 
 ggdag(gst, node_size = 20, text_size = 2.5) + 
   geom_dag_node(color = "brown") + 
   geom_dag_text(color = "white") + 
-  ggtitle("Plant Growth (P), Solar Radiation (S) and Temperature (T) \n
-          P(P | S, T)") + 
+  ggtitle("Plant Growth (G), Solar Radiation (S) and Temperature (T) \n
+          P(G | S, T)") + 
   theme_dag_blank() 
 ```
 
 The *do* operator represents an intervention, which as a result erases the arrow from solar radiation to temperature.
 
 ```{r, echo = FALSE}
-crds <- list(x = c(P = 1, S = 0, T = 0), 
-             y = c(P = 0.5, S = 1, T = 0))
+crds <- list(x = c(G = 1, S = 0, T = 0), 
+             y = c(G = 0.5, S = 1, T = 0))
 
-gst  <- dagify(P ~ S,
-  P ~ T, coords = crds)
+gst  <- dagify(G ~ S,
+  G ~ T, coords = crds)
 
 ggdag(gst, node_size = 20, text_size = 2.5) + 
   geom_dag_node(color = "brown") + 
   geom_dag_text(color = "white") + 
-  ggtitle("Plant Growth (P), Solar Radiation (S) and Temperature (T) \n
-          P(P | S, do(T))") + 
+  ggtitle("Plant Growth (G), Solar Radiation (S) and Temperature (T) \n
+          P(G | S, do(T))") + 
   theme_dag_blank() 
 ```
 
 # Notable quotes
 
 > Data are profoundly dumb
+
+> That's all that a deep-learning program can do: fit a function to data
+
+> Data do not understand cause and effects; humans do
 
 ## Calculus of Causation
 
@@ -87,3 +91,5 @@ ggdag(gst, node_size = 20, text_size = 2.5) +
 Causal diagrams are fundamental to understanding the "data generating process" or the "cause and effect" forces behind the data.
 
 # Inference Engine
+
+![Inference-Engine](./Inference-Engine.png){width=80%}
