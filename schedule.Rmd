@@ -16,9 +16,11 @@ dates <- seq(from = as.Date("2021-01-12"),
              to = as.Date("2021-05-31"), by = 7)
 topics <- c("Introduction: Mind Over Data", 
             "Chapter 1: The Ladder of Causation",
-            paste("Chapter", 2:10),
+            "Chapter 2: From Buccaneers to Guinea Pigs...",
+            paste("Chapter", 3:10),
             rep("Practice", 9))
-presenter <- c("Miguez")
+presenter <- c("Miguez", "Miguez", "Laurent", "Chiozza", "Hartman", "Nichols",
+               "Cleveringa", "Miguez", rep("Miguez", 12))
 sch <- data.frame(dates = dates, topic = topics, presenter = presenter)
 kable(sch)
 ```

@@ -1,0 +1,13 @@
+---
+title: "From Buccaneers to Guinea Pigs"
+author: "Anabelle Laurent"
+date: "1/26/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(ggdag)
+```
+
+# Notes
