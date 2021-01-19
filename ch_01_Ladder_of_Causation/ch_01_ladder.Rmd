@@ -1,0 +1,102 @@
+---
+title: "The Ladder of Causation"
+author: "Fernando Miguez"
+date: "1/18/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(ggdag)
+```
+
+# The beginning 
+
+The chapter starts with the story of Adam and Eve in Genesis. The author says:
+
+> God asked "what" and they answered "why". God asked for the facts, and they replied with explanations
+
+Some take-aways:
+
+1. The world is not made up of dry facts (data). These facts are glued together by cause-effect relationships
+2. Causal explanations, not dry facts, make the bulk of our knowledge
+3. The transition from processors of data to makers of explanations was not gradual; it was a leap that required an external push from an uncommon fruit. No machine can derive explanations from raw data. It needs a push. 
+
+The first causal diagram in the book is about mammoth hunting and the factors that go into it. He calls this a "causal inference engine".
+
+> A causal learner must master at least three distinct levels of cognitive ability: seeing, doing and imagining
+
+> I can prove mathematically that the three levels differ fundamentally
+
+# Ladder of Causation 
+
+This seems fairly intuitive. Should it be called the "Ladder of Reasoning"
+
+![Ladder-of-Causation](./ladder_of_causation.png)
+
+### Toothpaste example
+
+The next example is about floss and toothpaste. Clearly, in this example, there is cause an effect. Neither "causes" the other one. 
+
+\[
+P(floss \; | \; toothpaste)
+\]
+
+The author asks: "What if we double the price?" and points out that this is a difficult question for a number of reasons:
+
+* That price might have never been seen before
+* If the price had been twice as much in the past many other factors might have been different too
+* We are now dealing with a deliberate intervention, not a passive observation
+
+> A sufficiently strong and accurate causal model can allow us to use rung-one (observational) data to answer rung-two (interventional) queries. 
+
+Without the causal model, you cannot do this. Again he reminds us that:
+
+\[
+P(floss \; | \; toothpaste) \neq P(floss \; | \; do(toothpaste))
+\]
+
+The Lion Man of Stadel Cave is an example of human imagination. A creation which breaks the rules of what is seen in nature. A counterfactual.
+
+### Firing squad example
+
+```{r, echo = FALSE}
+crds <- list(x = c(CO = 0.5, C = 0.5, A = 0.33, B = 0.66, D = 0.5), 
+             y = c(CO = 1, C = 0.66, A = 0.33, B = 0.33, D = 0))
+
+gst  <- dagify(C ~ CO,
+  A ~ C, B ~ C, D ~ A + B, coords = crds)
+
+ggdag(gst, node_size = 20, text_size = 2.5) + 
+  geom_dag_node(color = "brown") + 
+  geom_dag_text(color = "white") + 
+  ggtitle("Court Order (CO), Captain (C), Soldier actions (A, B) and Prisoner Death (D)") + 
+  theme_dag_blank() 
+```
+
+> When you make an event happen, remove all arrows that point to that event and continue the analysis ordinary logic, as if the arrows had never been there
+
+> Making an event happen means that you emancipate it from all other influences and subject it to one and onle one influence -- that which enforces its happening
+
+### Vaccination example
+
+```{r, echo = FALSE}
+crds2 <- list(x = c(Vaccination = 0.5, Reaction = 0.33, Smallpox = 0.66, Death = 0.5), 
+              y = c(Vaccination = 0.66, Reaction = 0.33, Smallpox = 0.33, Death = 0))
+
+gst2 <- dagify(Death ~ Reaction + Smallpox, Reaction ~ Vaccination, 
+               Smallpox ~ Vaccination, coords = crds2)
+
+ggdag(gst2, node_size = 21, text_size = 2.5) + 
+  theme_dag_blank() 
+```
+
+> Very often the structure of the diagram itself enables us to estimate all sorts of causal and counterfactual relationships: simple or complicate, deterministic or probabilistic, linear or nonlinear.
+
+The chapter finished with a discussion of probabilities and causation and the role that the *do* operator plays. Again we see that there is a fundamental distinction between these two statements:
+
+\[ P(Y \; | X) > P(Y)\]
+
+\[ P(Y \; | do(X)) > P(Y)\]
+
+
