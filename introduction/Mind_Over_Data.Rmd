@@ -93,3 +93,8 @@ Causal diagrams are fundamental to understanding the "data generating process" o
 # Inference Engine
 
 ![Inference-Engine](./Inference-Engine.png){width=80%}
+
+# Resources
+
+* Book of Why website (http://bayes.cs.ucla.edu/WHY/)
+
