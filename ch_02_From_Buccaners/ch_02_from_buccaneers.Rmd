@@ -10,4 +10,19 @@ knitr::opts_chunk$set(echo = TRUE)
 library(ggdag)
 ```
 
-# Notes
+### Galton: the unloved one 
+
+- Quincunx demonstrated that the distribution of events approximates the normal distribution.  
+
+- Karl Pearson introduced the correlation coefficient and expulse the principle of causality.  
+
+
+### Guinea pig experiment 
+
+- It proved that some correlation do imply causation.  
+
+- Causal diagram is needed to draw conclusion about individual causal relationships.  
+
+- Causal analysis = data + understanding of the process to produce the data  
+
+<!-- ![guinea-pigs](./guinea_pigs.png) -->
