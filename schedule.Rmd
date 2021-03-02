@@ -20,7 +20,7 @@ topics <- c("Introduction: Mind Over Data",
             paste("Chapter", 3:10),
             rep("Practice", 9))
 presenter <- c("Miguez", "Miguez", "Laurent", "Chiozza", "Hartman", "Nichols",
-               "Cleveringa", "Miguez", rep("Miguez", 12))
+               "Cleveringa", "Miguez", "Laurent", "Chiozza", "Hartman", rep("Miguez", 9))
 sch <- data.frame(dates = dates, topic = topics, presenter = presenter)
 kable(sch)
 ```

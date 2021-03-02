@@ -1,0 +1,160 @@
+---
+title: "Beyond Adjustment: Conquest of Mount Intervention"
+author: "Fernando Miguez"
+date: "2/28/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(dagitty)
+library(ggdag)
+```
+
+# Beyond Adjustment
+
+This chapter introduces *do*-calculus as a universal method for scaling mount intervention or in other words uncovering 'true' causal relationships from observational data. 
+
+![Mount-Intervention](./mount-intervention.jpg){width=80%}
+
+## Background
+
+An expectation is defined as:
+
+\[
+E(X) = \Sigma_x x \cdot p(X = x)
+\]
+
+https://en.wikipedia.org/wiki/Expected_value
+
+![Expected-die](./Expected-die.png)
+
+## Back-door criterion and Back-door adjustment
+
+```{r, echo = FALSE}
+crds <- list(x = c(Y = 1, X = 0, Z = 0.5), 
+             y = c(Y = 0, X = 0, Z = 1))
+
+pfr  <- dagify(Y ~ X, X ~ Z, Y ~ Z, coords = crds)
+
+ggdag(pfr, node_size = 20, text_size = 2.5) + 
+  geom_dag_node(color = "brown") + 
+  geom_dag_text(color = "white") + 
+  ggtitle("Outcome (Y), Exposure (X) \n
+          Confounder (Z)") + 
+  theme_dag_blank() 
+```
+
+In a linear world this is taken care by the model
+
+\[
+Y = aX + bX + c
+\]
+
+\[
+a = r_{XY, Z^{*}} 
+\]
+
+### Back-door criterion
+
+**https://www.youtube.com/watch?v=U1S8Rq8IcrY**
+
+![Blocking-Back-door-path](./Blocking-back-door-path.png)
+
+
+## Front-door adjustment
+
+```{r, echo = FALSE}
+crds <- list(x = c(Y = 1, S = 0, G = 0.5, T = 0.5), 
+             y = c(Y = 0, S = 0, G = 1, T = 0))
+
+pfr  <- dagify(Y ~ T, T ~ S, S ~ G, Y ~ G, coords = crds)
+
+ggdag(pfr, node_size = 20, text_size = 2.5) + 
+  geom_dag_node(color = "brown") + 
+  geom_dag_text(color = "white") + 
+  ggtitle("Outcome - Cancer (Y), Smoking (S) \n
+          Gene (G), Tar (T)") + 
+  theme_dag_blank() 
+```
+
+Here Z stands for Tar
+\[
+P(Y | do(X)) = \Sigma_z P(Z = z | X) \cdot \Sigma_x P(Y | X = x, Z = z) P(X = x)
+\]
+
+The back-door adjustment is
+
+\[
+P(Y | do(X)) = \Sigma_u P(Y | X, U = u) P(U = u)
+\]
+
+## Job training example
+
+
+```{r, echo = FALSE}
+crds <- list(x = c(E = 1, SignedUp = 0, M = 0.5, ShowedUp = 0.5), 
+             y = c(E = 0, SignedUp = 0, M = 1, ShowedUp = 0))
+
+pfr  <- dagify(E ~ ShowedUp, ShowedUp ~ SignedUp, SignedUp ~ M, E ~ M, ShowedUp ~ M, coords = crds)
+
+ggdag(pfr, node_size = 20, text_size = 2.5) + 
+  ggtitle("Outcome - Earnings (E)  \n
+          Motivation (M)") + 
+  theme_dag_blank() 
+```
+
+# *Do*-calculus
+
+Target query is:
+
+\[
+P(Y | do(X))
+\]
+
+## Rule 1
+
+If a variable W is irrelevant to Y (possibly conditional on other variable Z)
+
+\[
+P(Y | do(X), Z, W) = P(Y | do(X), Z)
+\]
+
+## Rule 2
+
+if a set Z of variables blocks all back-door paths from X to Y, then conditional on Z, *do(X)* is equivalent to *see(X)*
+
+\[
+P(Y | do(X), Z) = P(Y | X, Z)
+\]
+
+## Rule 3
+
+if there are no arrows from X to Y
+
+\[
+P(Y | do(X)) = P(Y)
+\]
+
+![Do-calculus](./do-calculus.png)
+
+## Instrumental Variables
+
+Assumptions:
+
+
+
+```{r, echo = FALSE}
+crds <- list(x = c(Cholera = 1, WaterCompany = 0, Miasma = 0.66, WaterPurity = 0.25), 
+             y = c(Cholera = 0, WaterPurity = 0, Miasma = 1, WaterCompany = 0))
+
+pfr  <- dagify(Cholera ~ WaterPurity, WaterPurity ~ WaterCompany, WaterPurity ~ Miasma, Cholera ~ Miasma, coords = crds)
+
+ggdag(pfr, node_size = 20, text_size = 2) + 
+  theme_dag_blank() 
+```
+
+# Resources
+
+https://www.bradyneal.com/
+
