@@ -18,9 +18,12 @@ topics <- c("Introduction: Mind Over Data",
             "Chapter 1: The Ladder of Causation",
             "Chapter 2: From Buccaneers to Guinea Pigs...",
             paste("Chapter", 3:10),
-            rep("Practice", 9))
+            "SOM and Corn Yield (Kane et al. ERL 2021)",
+            "Nitrogen Availability in Cornfields (Tao et al. AJ 2018)",
+            rep("Practice", 7))
 presenter <- c("Miguez", "Miguez", "Laurent", "Chiozza", "Hartman", "Nichols",
-               "Cleveringa", "Miguez", "Laurent", "Chiozza", "Hartman", rep("Miguez", 9))
+               "Cleveringa", "Miguez", "Laurent", "Chiozza", "Hartman", 
+               "Nichols", "Cleveringa", "Laurent", "Chiozza", "Hartman", rep("Miguez", 4))
 sch <- data.frame(dates = dates, topic = topics, presenter = presenter)
 kable(sch)
 ```
